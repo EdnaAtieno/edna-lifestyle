@@ -1,0 +1,20 @@
+"use strict";(()=>{var e={};e.id=9602,e.ids=[9602],e.modules={2885:e=>{e.exports=require("@supabase/supabase-js")},2934:e=>{e.exports=require("next/dist/client/components/action-async-storage.external.js")},4580:e=>{e.exports=require("next/dist/client/components/request-async-storage.external.js")},5869:e=>{e.exports=require("next/dist/client/components/static-generation-async-storage.external.js")},399:e=>{e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},517:e=>{e.exports=require("next/dist/compiled/next-server/app-route.runtime.prod.js")},2707:(e,t,s)=>{s.r(t),s.d(t,{originalPathname:()=>x,patchFetch:()=>h,requestAsyncStorage:()=>g,routeModule:()=>l,serverHooks:()=>f,staticGenerationAsyncStorage:()=>m});var r={};s.r(r),s.d(r,{DELETE:()=>c,GET:()=>u,PUT:()=>d});var a=s(9303),o=s(8716),i=s(670),n=s(9692),p=s(7070);async function u(e,{params:t}){let{id:s}=await t,r=await (0,n.e)();try{let{data:e,error:t}=await r.from("posts").select(`
+        *,
+        profiles:author_id (
+          username,
+          display_name,
+          avatar_url,
+          is_verified
+        ),
+        categories (
+          name,
+          color,
+          slug
+        )
+      `).eq("id",s).single();if(t)throw t;let{data:a}=await r.from("post_tags").select(`
+        tags (
+          id,
+          name,
+          slug
+        )
+      `).eq("post_id",s),o=a?.map(e=>e.tags)||[];return await r.from("posts").update({view_count:e.view_count+1}).eq("id",s),p.NextResponse.json({post:{...e,tags:o}})}catch(e){return console.error("Error fetching post:",e),p.NextResponse.json({error:"Post not found"},{status:404})}}async function d(e,{params:t}){let{id:s}=await t,r=await (0,n.e)();try{let{data:{user:t},error:a}=await r.auth.getUser();if(a||!t)return p.NextResponse.json({error:"Unauthorized"},{status:401});let{data:o}=await r.from("posts").select("author_id").eq("id",s).single();if(!o||o.author_id!==t.id)return p.NextResponse.json({error:"Forbidden"},{status:403});let{content:i,category_id:n}=await e.json(),{data:u,error:d}=await r.from("posts").update({content:i,category_id:n||null,updated_at:new Date().toISOString()}).eq("id",s).select().single();if(d)throw d;return p.NextResponse.json({post:u})}catch(e){return console.error("Error updating post:",e),p.NextResponse.json({error:"Failed to update post"},{status:500})}}async function c(e,{params:t}){let{id:s}=await t,r=await (0,n.e)();try{let{data:{user:e},error:t}=await r.auth.getUser();if(t||!e)return p.NextResponse.json({error:"Unauthorized"},{status:401});let{data:a}=await r.from("posts").select("author_id").eq("id",s).single();if(!a||a.author_id!==e.id)return p.NextResponse.json({error:"Forbidden"},{status:403});let{error:o}=await r.from("posts").delete().eq("id",s);if(o)throw o;return p.NextResponse.json({message:"Post deleted successfully"})}catch(e){return console.error("Error deleting post:",e),p.NextResponse.json({error:"Failed to delete post"},{status:500})}}let l=new a.AppRouteRouteModule({definition:{kind:o.x.APP_ROUTE,page:"/api/posts/[id]/route",pathname:"/api/posts/[id]",filename:"route",bundlePath:"app/api/posts/[id]/route"},resolvedPagePath:"C:\\Users\\User-PC\\Desktop\\edna-lifestyle\\app\\api\\posts\\[id]\\route.ts",nextConfigOutput:"",userland:r}),{requestAsyncStorage:g,staticGenerationAsyncStorage:m,serverHooks:f}=l,x="/api/posts/[id]/route";function h(){return(0,i.patchFetch)({serverHooks:f,staticGenerationAsyncStorage:m})}},9692:(e,t,s)=>{s.d(t,{e:()=>o});var r=s(7721),a=s(1615);async function o(){let e=await (0,a.cookies)();return(0,r.createServerClient)("https://tdqbdkwokdsudijppjcy.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkcWJka3dva2RzdWRpanBwamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTk3NTEsImV4cCI6MjA3MjM5NTc1MX0.ZyW2ggeup_A45cenGjVPFebfVMKwrE6c9NP7xgWLUrU",{cookies:{getAll:()=>e.getAll(),setAll(t){try{t.forEach(({name:t,value:s,options:r})=>e.set(t,s,r))}catch{}}}})}}};var t=require("../../../../webpack-runtime.js");t.C(e);var s=e=>t(t.s=e),r=t.X(0,[9276,9702,5972],()=>s(2707));module.exports=r})();
