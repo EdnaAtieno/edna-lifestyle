@@ -64,7 +64,12 @@ export function CommentSection({ postId, currentUserId }: CommentSectionProps) {
 
       if (error) throw error
 
-      setComments(data || [])
+      setComments(
+        (data || []).map((comment: any) => ({
+          ...comment,
+          profiles: Array.isArray(comment.profiles) ? comment.profiles[0] : comment.profiles,
+        }))
+      )
     } catch (error) {
       console.error("Error fetching comments:", error)
     } finally {
@@ -102,7 +107,13 @@ export function CommentSection({ postId, currentUserId }: CommentSectionProps) {
 
       if (error) throw error
 
-      setComments((prev) => [data, ...prev])
+      setComments((prev) => [
+        {
+          ...data,
+          profiles: Array.isArray(data.profiles) ? data.profiles[0] : data.profiles,
+        },
+        ...prev,
+      ])
       setNewComment("")
     } catch (error) {
       console.error("Error posting comment:", error)
